@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   // Debugging
-  debug: false,
+  debug: true,
 
   // Public properties
   roomName: "",
@@ -195,10 +195,22 @@ export default Ember.Component.extend({
       return this.get('_floorSurfaceType') === "Specify Maximum Floor Surface Temperature (°C)";
     }),
 
+  // Update Class observer
+  /*updateObserver: Ember.observer('roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', function()
+  {
+    this.get('testSite').set('name', this.get('roomName'));
+    this.get('testSite').set('emitterType', this.get('emitterType'));
+    this.get('testSite').set('temperatureFactor', this.get('temperatureFactor'));
+    this.get('testSite').set('nCoefficient', this.get('nCoefficient'));
+    this.get('testSite').set('floorSurfaceType', this.get('floorSurfaceType'));
+    this.get('testSite').set('maximumFloorSurfaceTemp', this.get('maximumFloorSurfaceTemp'));
+  }),*/
+
   // DEBUG
-  debugObserver: Ember.observer('roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', function()
+  debugObserver: Ember.observer('roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', 'testSite', function()
   {
     if (this.get('debug')){
+      console.log('testSite: ' + this.get('testSite'));
       console.log("roomName: " + this.get('roomName'));
       console.log("emitterType: " + this.get('emitterType'));
       console.log("temperatureFactor: " + this.get('temperatureFactor'));
