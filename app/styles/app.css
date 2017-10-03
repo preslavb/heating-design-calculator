@@ -1,0 +1,38 @@
+.tabs-selection-bar
+{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #88EE88;
+}
+
+.tabs-selection-bar li
+{
+  float: left;
+}
+
+.tabs-selection-bar li a
+{
+  display: block;
+  margin: auto;
+  padding: 20px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.tabs-selection-bar li a:hover
+{
+  background: green;
+}
+
+div
+{
+  border: 1px solid black;
+  padding: 10px;
+}
+
+select, input
+{
+  margin: 10px 0px;
+}

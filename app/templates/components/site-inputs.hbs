@@ -1,0 +1,43 @@
+<h2>Site Inputs</h2>
+
+<!-- Dropdown inputs -->
+<span>Heating Duration:<br></span>
+<select onchange = {{action (mut heatDuration) value="target.value"}}>
+  {{#each durationOptions as |durationOption|}}
+    <option>{{durationOption}}</option>
+  {{/each}}
+</select>
+
+<span><br>Source of Design External Temperature:<br></span>
+<select onchange = {{action (mut designExternalTempSource) value="target.value"}}>
+  {{#each designExternalTempSourceOptions as |sourceExternalTemp|}}
+    <option>{{sourceExternalTemp}}</option>
+  {{/each}}
+</select>
+
+<!-- Only make option available if the source is supposed to be taken from a city -->
+<span hidden={{unless sourceIsFromCity "hidden"}}><br>Local City (to determine DET):<br></span>
+<select hidden={{unless sourceIsFromCity "hidden"}} value={{sourceCity}} onchange = {{action (mut sourceCity) value="target.value"}}>
+  {{#each sourceCityOptions as |cityOption|}}
+    <option>{{cityOption}}</option>
+  {{/each}}
+</select>
+
+<!-- Only make input available if the source is supposed to be taken from a city -->
+<span hidden={{unless sourceIsFromCity "hidden"}}><br>Height (m) above mean sea level:<br></span>
+{{#if sourceIsFromCity}}
+  {{input type="number" value=altitude}}
+{{/if}}
+
+<!-- Only make input available if the source is supposed to be entered manually -->
+<span hidden={{if sourceIsFromCity "hidden"}}><br>Enter specified Design External Temperature (DET) in °C:<br></span>
+{{#unless sourceIsFromCity}}
+  {{input type="number" value=designExternalTemp}}
+{{/unless}}
+
+<span><br>Building Regulation criteria:<br></span>
+<select onchange = {{action (mut buildingRegulation) value="target.value"}}>
+  {{#each buildingRegulationOptions as |regulationOption|}}
+    <option>{{regulationOption}}</option>
+  {{/each}}
+</select>
