@@ -1,6 +1,6 @@
-import Ember from 'ember'
+import Ember from 'ember';
 
-const elementInput: Ember.Object.extend({
+const elementInput = Ember.Object.extend({
 
 })
 export default elementInput;
