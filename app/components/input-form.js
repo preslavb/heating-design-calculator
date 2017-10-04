@@ -1,5 +1,7 @@
 import Ember from 'ember';
+import roomInput from 'heating-design-calculator/classes/room-input';
 import siteInput from 'heating-design-calculator/classes/site-input';
+import emitterSpecifications from 'heating-design-calculator/classes/emitter-specifications';
 
 export default Ember.Component.extend({
 
@@ -10,15 +12,7 @@ export default Ember.Component.extend({
     "Emitter Specifications"
   ],
 
-  testSite: siteInput.create({
-    roomName: "testName",
-    emitterType: "testType",
-    temperatureFactor: NaN,
-    nCoefficient: NaN,
-    floorSurfaceType: NaN,
-    maximumFloorSurfaceTemp: NaN,
-    floorConstruction: NaN,
-    floorTOG: NaN,
-    activeFloorArea: NaN
-  })
+  roomInput: roomInput.create(),
+  siteInput: siteInput.create(),
+  emitterSpecifications: emitterSpecifications.create()
 });

@@ -16,9 +16,9 @@ export default Ember.Controller.extend({
         roomHeight: 4,
 
         // Specific parts of a room
-        constructionElements: null,
-        floors: null,
-        portals: null
+        constructionElements: [null],
+        floors: [null],
+        portals: [null]
       });
     }
   }

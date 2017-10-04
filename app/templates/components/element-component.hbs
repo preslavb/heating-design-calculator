@@ -1,0 +1,9 @@
+<span>Element Description:<br></span>
+{{input type="text" value=roomInput.elements.index.description}}
+
+<span><br>Space type on other side of construction:<br></span>
+<select onchange = {{action (mut roomInput.floorConstruction) value="target.value"}}>
+  {{#each element. as |floorConstructionOption|}}
+    <option>{{floorConstructionOption}}</option>
+  {{/each}}
+</select>

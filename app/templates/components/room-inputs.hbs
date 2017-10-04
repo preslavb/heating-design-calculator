@@ -1,57 +1,67 @@
 <h2>Room Inputs</h2>
 
 <span>Room Name:<br></span>
-{{input type="text" value=roomName}}
+{{input type="text" value=roomInput.roomName}}
 
 <!-- Emitter options dropdown -->
 <span><br>Emitter Type:<br></span>
-<select onchange = {{action (mut emitterType) value="target.value"}}>
-  {{#each emitterTypeOptions as |emitterTypeOption|}}
+<select onchange = {{action (mut roomInput.emitterType) value="target.value"}}>
+  {{#each roomInput.emitterTypeOptions as |emitterTypeOption|}}
     <option>{{emitterTypeOption}}</option>
   {{/each}}
 </select>
 
 <!-- Show options if Convector -->
-{{#if isConvector}}
+{{#if roomInput.isConvector}}
   <span><br>Temperature Factor:<br></span>
-  {{input type="number" value=temperatureFactor}}
+  {{input type="number" value=roomInput.temperatureFactor}}
 {{/if}}
 
 <!-- Show options if Radiator -->
-{{#if isRadiator}}
+{{#if roomInput.isRadiator}}
   <span><br>n-Coefficient:<br></span>
-  {{input type="number" value=nCoefficient}}
+  {{input type="number" value=roomInput.nCoefficient}}
 {{/if}}
 
 <!-- Show options if Underfloor Heating -->
-<span hidden={{unless isUnderfloor "hidden"}}><br>Floor Surface Type:<br></span>
-<select hidden={{unless isUnderfloor "hidden"}} onchange = {{action (mut floorSurfaceType) value="target.value"}}>
-  {{#each floorSurfaceTypeOptions as |floorSurfaceTypeOption|}}
+<span hidden={{unless roomInput.isUnderfloor "hidden"}}><br>Floor Surface Type:<br></span>
+<select hidden={{unless roomInput.isUnderfloor "hidden"}} onchange = {{action (mut roomInput.floorSurfaceType) value="target.value"}}>
+  {{#each roomInput.floorSurfaceTypeOptions as |floorSurfaceTypeOption|}}
     <option>{{floorSurfaceTypeOption}}</option>
   {{/each}}
 </select>
 
-{{#if isCustomMaximumSurfaceTemp}}
+{{#if roomInput.isCustomMaximumSurfaceTemp}}
   <span><br>Maximum Floor Surface Temperature in °C:<br></span>
-  {{input type="number" value=maximumFloorSurfaceTemp}}
+  {{input type="number" value=roomInput.maximumFloorSurfaceTemp}}
 {{/if}}
 
-<span hidden={{unless isUnderfloor "hidden"}}><br>Floor Construction:<br></span>
-<select hidden={{unless isUnderfloor "hidden"}} onchange = {{action (mut floorConstruction) value="target.value"}}>
-  {{#each floorConstructionOptions as |floorConstructionOption|}}
+<span hidden={{unless roomInput.isUnderfloor "hidden"}}><br>Floor Construction:<br></span>
+<select hidden={{unless roomInput.isUnderfloor "hidden"}} onchange = {{action (mut roomInput.floorConstruction) value="target.value"}}>
+  {{#each roomInput.floorConstructionOptions as |floorConstructionOption|}}
     <option>{{floorConstructionOption}}</option>
   {{/each}}
 </select>
 
-{{#if isUnderfloor}}
+{{#if roomInput.isUnderfloor}}
   <span><br>Floor TOG value:<br></span>
-  {{input type="number" value=floorTOG}}
+  {{input type="number" value=roomInput.floorTOG}}
 {{/if}}
 
-{{#if isUnderfloor}}
+{{#if roomInput.isUnderfloor}}
   <span><br>Active floor area in m<sup>2</sup>:<br></span>
-  {{input type="number" value=activeFloorArea}}
+  {{input type="number" value=roomInput.activeFloorArea}}
+{{/if}}
+
+<!-- Show elements if there are any to show -->
+{{#if roomInput.elements}}
+  {{#each roomInput.elements as |element index|}}
+    {{element-component element=element}}
+  {{/each}}
 {{/if}}
 
 <br>
-<button> Create Room </button>
+<button {{action "addElement"}}> Add Construction Element (Wall, Floor, Ceiling)</button>
+
+<br>
+<button {{action createRoom roomInput.roomName roomInput.emitterType roomInput.temperatureFactor roomInput.nCoefficient roomInput.floorSurfaceType roomInput.maximumFloorSurfaceTemp roomInput.floorConstruction roomInput.floorTOG roomInput.activeFloorArea}}> Create Room </button>
