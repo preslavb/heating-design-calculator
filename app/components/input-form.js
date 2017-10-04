@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import roomInput from 'heating-design-calculator/classes/room-input';
-import siteInput from 'heating-design-calculator/classes/site-input';
-import emitterSpecifications from 'heating-design-calculator/classes/emitter-specifications';
+import roomInput from 'heating-design-calculator/classes/input/room-input';
+import siteInput from 'heating-design-calculator/classes/input/site-input';
+import emitterSpecifications from 'heating-design-calculator/classes/input/emitter-specifications';
 
 export default Ember.Component.extend({
   // Create the input classes which store the different inputs for the calculation
