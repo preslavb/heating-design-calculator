@@ -1,9 +1,4 @@
-<ul class="tabs-selection-bar">
-  {{#each inputTabs as |tab|}}
-    <li><a>{{tab}}</a></li>
-  {{/each}}
-</ul>
-
+<!-- Create the components for the different input tabs and set their classes -->
 {{site-inputs siteInput=siteInput}}
 {{room-inputs roomInput=roomInput createRoom=(action createRoom)}}
 {{emitter-specifications emitterSpecifications=emitterSpecifications}}

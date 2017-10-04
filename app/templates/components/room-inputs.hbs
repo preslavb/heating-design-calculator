@@ -60,8 +60,10 @@
   {{/each}}
 {{/if}}
 
+<!-- Add elements to the array of elements in the roomInputs class -->
 <br>
 <button {{action "addElement"}}> Add Construction Element (Wall, Floor, Ceiling)</button>
 
+<!-- Create the room model from the input the user gave -->
 <br>
 <button {{action createRoom roomInput.roomName roomInput.emitterType roomInput.temperatureFactor roomInput.nCoefficient roomInput.floorSurfaceType roomInput.maximumFloorSurfaceTemp roomInput.floorConstruction roomInput.floorTOG roomInput.activeFloorArea}}> Create Room </button>
