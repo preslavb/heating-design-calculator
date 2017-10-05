@@ -8,25 +8,5 @@ export default DS.Model.extend({
   longLength: DS.attr('number'),
   edgesExposed: DS.attr('string'),
   insulation: DS.attr('number'),
-
-  // Private properties
-  _uValue: DS.attr('number'),
-
-  // Property accessors
-  uValue: Ember.computed('insulation', '_uValue',
-  {
-    get(key)
-    {
-      if (this.get('insulation')){
-        return this.get('insulation.uValue');
-      } else {
-        return this.get('_uValue');
-      }
-    },
-
-    set(key, value)
-    {
-      this.set('_uValue', value);
-    }
-  })
+  uValue: DS.attr('number')
 });

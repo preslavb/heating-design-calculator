@@ -1,0 +1,28 @@
+<button {{action destroyPortal index}}> X </button>
+
+<span>Portal {{index}}:<br></span>
+
+<span><br>In which wall/ceiling/door:<br></span>
+<select onchange = {{action (mut portal.partOf) value="target.value"}}>
+  {{#each portal.partOfOptions as |option|}}
+    <option>{{option}}</option>
+  {{/each}}
+</select>
+
+<span><br>Height:<br></span>
+{{input type="number" value=portal.height}}
+
+<span><br>Width:<br></span>
+{{input type="number" value=portal.width}}
+
+<span><br>Frame/glazing type:<br></span>
+<select onchange = {{action (mut portal.frameType) value="target.value"}}>
+  {{#each portal.frameTypeOptions as |option|}}
+    <option>{{option}}</option>
+  {{/each}}
+</select>
+
+{{#if portal.isCustomFrameType}}
+  <span><br>Custom U-value:<br></span>
+  {{input type="number" value=portal.uValue}}
+{{/if}}

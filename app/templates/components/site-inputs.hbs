@@ -2,42 +2,42 @@
 
 <!-- Dropdown inputs -->
 <span>Heating Duration:<br></span>
-<select onchange = {{action (mut heatDuration) value="target.value"}}>
-  {{#each durationOptions as |durationOption|}}
+<select onchange = {{action (mut siteInput.heatDuration) value="target.value"}}>
+  {{#each siteInput.durationOptions as |durationOption|}}
     <option>{{durationOption}}</option>
   {{/each}}
 </select>
 
 <span><br>Source of Design External Temperature:<br></span>
-<select onchange = {{action (mut designExternalTempSource) value="target.value"}}>
-  {{#each designExternalTempSourceOptions as |sourceExternalTemp|}}
+<select onchange = {{action (mut siteInput.designExternalTempSource) value="target.value"}}>
+  {{#each siteInput.designExternalTempSourceOptions as |sourceExternalTemp|}}
     <option>{{sourceExternalTemp}}</option>
   {{/each}}
 </select>
 
 <!-- Only make option available if the source is supposed to be taken from a city -->
-<span hidden={{unless sourceIsFromCity "hidden"}}><br>Local City (to determine DET):<br></span>
-<select hidden={{unless sourceIsFromCity "hidden"}} value={{sourceCity}} onchange = {{action (mut sourceCity) value="target.value"}}>
-  {{#each sourceCityOptions as |cityOption|}}
+<span hidden={{unless siteInput.sourceIsFromCity "hidden"}}><br>Local City (to determine DET):<br></span>
+<select hidden={{unless siteInput.sourceIsFromCity "hidden"}} value={{siteInput.sourceCity}} onchange = {{action (mut siteInput.sourceCity) value="target.value"}}>
+  {{#each siteInput.sourceCityOptions as |cityOption|}}
     <option>{{cityOption}}</option>
   {{/each}}
 </select>
 
 <!-- Only make input available if the source is supposed to be taken from a city -->
-<span hidden={{unless sourceIsFromCity "hidden"}}><br>Height (m) above mean sea level:<br></span>
-{{#if sourceIsFromCity}}
-  {{input type="number" value=altitude}}
+<span hidden={{unless siteInput.sourceIsFromCity "hidden"}}><br>Height (m) above mean sea level:<br></span>
+{{#if siteInput.sourceIsFromCity}}
+  {{input type="number" value=siteInput.altitude}}
 {{/if}}
 
 <!-- Only make input available if the source is supposed to be entered manually -->
-<span hidden={{if sourceIsFromCity "hidden"}}><br>Enter specified Design External Temperature (DET) in °C:<br></span>
-{{#unless sourceIsFromCity}}
-  {{input type="number" value=designExternalTemp}}
+<span hidden={{if siteInput.sourceIsFromCity "hidden"}}><br>Enter specified Design External Temperature (DET) in °C:<br></span>
+{{#unless siteInput.sourceIsFromCity}}
+  {{input type="number" value=siteInput.designExternalTemp}}
 {{/unless}}
 
 <span><br>Building Regulation criteria:<br></span>
-<select onchange = {{action (mut buildingRegulation) value="target.value"}}>
-  {{#each buildingRegulationOptions as |regulationOption|}}
+<select onchange = {{action (mut siteInput.buildingRegulation) value="target.value"}}>
+  {{#each siteInput.buildingRegulationOptions as |regulationOption|}}
     <option>{{regulationOption}}</option>
   {{/each}}
 </select>

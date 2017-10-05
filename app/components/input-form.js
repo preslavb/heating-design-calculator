@@ -1,24 +1,9 @@
 import Ember from 'ember';
-import siteInput from 'heating-design-calculator/classes/site-input';
+import siteInput from 'heating-design-calculator/classes/input/site-input';
+import emitterSpecifications from 'heating-design-calculator/classes/input/emitter-specifications';
 
 export default Ember.Component.extend({
-
-  // Define the input tabs to be filled in.
-  inputTabs: [
-    "Site Inputs",
-    "Room Inputs",
-    "Emitter Specifications"
-  ],
-
-  testSite: siteInput.create({
-    roomName: "testName",
-    emitterType: "testType",
-    temperatureFactor: NaN,
-    nCoefficient: NaN,
-    floorSurfaceType: NaN,
-    maximumFloorSurfaceTemp: NaN,
-    floorConstruction: NaN,
-    floorTOG: NaN,
-    activeFloorArea: NaN
-  })
+  // Create the input classes which store the different inputs for the calculation
+  siteInput: siteInput.create(),
+  emitterSpecifications: emitterSpecifications.create()
 });

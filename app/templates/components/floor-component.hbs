@@ -1,0 +1,28 @@
+<button {{action destroyFloor index}}> X </button>
+
+<span>Floor {{index}}:<br></span>
+
+<span><br>Short Length (m):<br></span>
+{{input type="number" value=floor.shortLength}}
+
+<span><br>Long Length (m):<br></span>
+{{input type="number" value=floor.longLength}}
+
+<span><br>Edges Exposed:<br></span>
+<select onchange = {{action (mut floor.edgesExposed) value="target.value"}}>
+  {{#each floor.edgesExposedOptions as |option|}}
+    <option>{{option}}</option>
+  {{/each}}
+</select>
+
+<span><br>Insulation Type and Thickness:<br></span>
+<select onchange = {{action (mut floor.insulationType) value="target.value"}}>
+  {{#each floor.insulationTypeOptions as |option|}}
+    <option>{{option}}</option>
+  {{/each}}
+</select>
+
+{{#if floor.isCustomInsulation}}
+  <span><br>Custom U-value:<br></span>
+  {{input type="number" value=floor.uValue}}
+{{/if}}

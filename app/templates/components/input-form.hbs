@@ -1,9 +1,9 @@
-<ul class="tabs-selection-bar">
-  {{#each inputTabs as |tab|}}
-    <li><a>{{tab}}</a></li>
-  {{/each}}
-</ul>
-
-{{site-inputs testSite=testSite}}
-{{room-inputs}}
-{{emitter-specifications}}
+<!-- Create the components for the different input tabs and set their classes -->
+{{site-inputs siteInput=siteInput}}
+{{#each siteInput.rooms as |roomInput|}}
+  {{room-inputs roomInput=roomInput createRoom=(action createRoom)
+                addElement=(action roomInput.addElement) destroyElement=(action roomInput.destroyElement)
+                addFloor=(action roomInput.addFloor) destroyFloor=(action roomInput.destroyFloor)
+                addPortal=(action roomInput.addPortal) destroyPortal=(action roomInput.destroyPortal)}}
+{{/each}}
+{{emitter-specifications emitterSpecifications=emitterSpecifications}}

@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   actions: {
+    // Define the action for creating a model of the room in the store
     createRoom(roomName, emitterType, temperatureFactor, nCoefficient, floorSurfaceType,
                maximumFloorSurfaceTemp, floorConstruction, floorTOG, activeFloorArea)
     {
@@ -16,9 +17,9 @@ export default Ember.Controller.extend({
         roomHeight: 4,
 
         // Specific parts of a room
-        constructionElements: null,
-        floors: null,
-        portals: null
+        constructionElements: [null],
+        floors: [null],
+        portals: [null]
       });
     }
   }
