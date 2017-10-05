@@ -5,7 +5,6 @@ const siteInput = Ember.Object.extend({
   debug: true,
 
   // Initialize
-
   init()
   {
     let newRoom = roomInput.create();
@@ -137,7 +136,7 @@ const siteInput = Ember.Object.extend({
     }
   }),
 
-  altitudeObserver: Ember.observer('rooms.length', function()
+  roomUpdater: Ember.observer('rooms.length', function()
   {
     this.get('rooms').forEach( room => room.set('siteBelongingTo', this));
   }),
@@ -154,5 +153,5 @@ const siteInput = Ember.Object.extend({
       console.log("designExternalTemp: " + this.get('designExternalTemp'));
     }
   })
-})
+});
 export default siteInput;
