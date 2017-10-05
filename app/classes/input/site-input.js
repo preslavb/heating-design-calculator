@@ -1,12 +1,24 @@
 import Ember from 'ember';
+import roomInput from 'heating-design-calculator/classes/input/room-input';
 
 const siteInput = Ember.Object.extend({
   debug: true,
+
+  // Initialize
+
+  init()
+  {
+    let newRoom = roomInput.create();
+    newRoom.set('siteBelongingTo', this);
+    this.get('rooms').pushObject(newRoom);
+  },
 
   // Public properties
   heatDuration: "Intermittent",
   designExternalTempSource: "City and altitude",
   buildingRegulation: 'Built before 2000',
+
+  rooms: [],
 
   // Private properties
   _sourceCity: "Belfast",
@@ -50,14 +62,15 @@ const siteInput = Ember.Object.extend({
     }
   }),
 
-  // Make sure the final temperature passed to the class is valid
-  designExternalTemp: Ember.computed('sourceCity', 'designExternalTempSource', '_designExternalTemperature',
+  // Calculate Design External Temperature
+  designExternalTemp: Ember.computed('sourceCity', 'designExternalTempSource', 'altitude', 'heatDuration', '_designExternalTemperature',
   {
     get(value)
     {
       if (this.get('designExternalTempSource') === "City and altitude"){
-        this.set('_designExternalTemperature', this.get(`designExternalTempByCity.${this.get('sourceCity')}`))
-        return this.get(`designExternalTempByCity.${this.get('sourceCity')}`);
+        let temperature = this.get('heatDuration') === "Intermittent" ? this.get(`designExternalTempByCity.${this.get('sourceCity')}`)[1] : this.get(`designExternalTempByCity.${this.get('sourceCity')}`)[2];
+        this.set('_designExternalTemp', temperature - (this.get('altitude') - this.get(`designExternalTempByCity.${this.get('sourceCity')}`)[0]) * (0.6/100));
+        return this.get('_designExternalTemp');
       } else {
         return this.get('_designExternalTemperature');
       }
@@ -70,7 +83,7 @@ const siteInput = Ember.Object.extend({
     }
   }),
 
-  // Available options for the input dropdowns
+  // Dropdown options
   durationOptions: [
     "Intermittent",
     "Countinuous"
@@ -100,14 +113,14 @@ const siteInput = Ember.Object.extend({
 
   // Constants
   designExternalTempByCity: {
-    'Belfast'   : -2.8,
-    'Birmingham': -5.4,
-    'Cardif'    : -3.4,
-    'Edinburgh' : -5.8,
-    'Glasgow'   : -6.5,
-    'London'    : -3.8,
-    'Manchester': -3.8,
-    'Plymouth'  : -2
+    'Belfast'   : [68, -2.6, -1.2],
+    'Birmingham': [96, -5.4, -3.4],
+    'Cardif'    : [67, -3.2, -1.6],
+    'Edinburgh' : [35, -5.4, -3.4],
+    'Glasgow'   : [5, -5.9, -3.9],
+    'London'    : [25, -3.3, -1.8],
+    'Manchester': [75, -3.6, -2.2],
+    'Plymouth'  : [27, -1.6, -0.2],
   },
 
   // Computed properties to check active options
@@ -119,9 +132,14 @@ const siteInput = Ember.Object.extend({
     if (this.get('altitude') < -3){
       this.set('altitude', -3);
     }
-    else if (this.get('altitude') > 99) {
-      this.set('altitude', 99);
+    else if (this.get('altitude') > 999) {
+      this.set('altitude', 999);
     }
+  }),
+
+  altitudeObserver: Ember.observer('rooms.length', function()
+  {
+    this.get('rooms').forEach( room => room.set('siteBelongingTo', this));
   }),
 
   // DEBUG

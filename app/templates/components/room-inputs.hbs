@@ -1,4 +1,4 @@
-<h2>Room Inputs</h2>
+<h2 class="expandContractToggle">Room Inputs</h2>
 
 <span>Room Name:<br></span>
 {{input type="text" value=roomInput.roomName}}
@@ -53,17 +53,59 @@
   {{input type="number" value=roomInput.activeFloorArea}}
 {{/if}}
 
-<!-- Show elements if there are any to show -->
-<!-- {{#if roomInput.elements}}
-  {{#each roomInput.elements as |element|}}
-    {{element-component element=element}}
+<span><br>Room Type:<br></span>
+<select onchange = {{action (mut roomInput.roomType) value="target.value"}}>
+  {{#each roomInput.roomTypeOptions as |roomTypeOption|}}
+    <option>{{roomTypeOption}}</option>
   {{/each}}
-{{/if}} -->
+</select>
 
+<span><br>Chimney Type:<br></span>
+<select onchange = {{action (mut roomInput.chimneyType) value="target.value"}}>
+  {{#each roomInput.chimneyTypeOptions as |chimneyTypeOption|}}
+    <option>{{chimneyTypeOption}}</option>
+  {{/each}}
+</select>
+
+<span><br>Room Length:<br></span>
+{{input type="number" value=roomInput.length}}
+
+<span><br>Room Width:<br></span>
+{{input type="number" value=roomInput.width}}
+
+<span><br>Room Height:<br></span>
+{{input type="number" value=roomInput.height}}
+
+<span><br>Construction elements:<br></span>
+<!-- Show elements if there are any to show -->
+{{#if roomInput.elements}}
+  {{#each roomInput.elements as |constructionElement index|}}
+    {{element-component constructionElement=constructionElement index=index destroyElement=(action destroyElement)}}
+  {{/each}}
+{{/if}}
 <!-- Add elements to the array of elements in the roomInputs class -->
+<button {{action addElement}}> Add Construction Element (Wall, Floor, Ceiling)</button>
 <br>
-<button {{action "addElement"}}> Add Construction Element (Wall, Floor, Ceiling)</button>
+
+<!-- Show floors if there are any to show -->
+{{#if roomInput.floors}}
+  {{#each roomInput.floors as |floor index|}}
+    {{floor-component floor=floor index=index destroyFloor=(action destroyFloor)}}
+  {{/each}}
+{{/if}}
+<!-- Add floor to the array of floors in the roomInputs class -->
+<button {{action addFloor}}> Add Floor</button>
+<br>
+
+<!-- Show portals if there are any to show -->
+{{#if roomInput.portals}}
+  {{#each roomInput.portals as |portal index|}}
+    {{portal-component portal=portal index=index destroyPortal=(action destroyPortal)}}
+  {{/each}}
+{{/if}}
+<!-- Add floor to the array of floors in the roomInputs class -->
+<button {{action addPortal}}> Add Portal</button>
+<br>
 
 <!-- Create the room model from the input the user gave -->
-<br>
 <button {{action createRoom roomInput.roomName roomInput.emitterType roomInput.temperatureFactor roomInput.nCoefficient roomInput.floorSurfaceType roomInput.maximumFloorSurfaceTemp roomInput.floorConstruction roomInput.floorTOG roomInput.activeFloorArea}}> Create Room </button>

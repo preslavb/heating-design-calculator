@@ -1,4 +1,7 @@
 import Ember from 'ember';
+import elementInput from 'heating-design-calculator/classes/input/components/element-input';
+import floorInput from 'heating-design-calculator/classes/input/components/floor-input';
+import portalInput from 'heating-design-calculator/classes/input/components/portal-input';
 
 const roomInput = Ember.Object.extend({
   // Debugging
@@ -7,7 +10,21 @@ const roomInput = Ember.Object.extend({
   // Public properties
   roomName: "",
   emitterType: "Convector",
-  elements: [ "testElement"],
+  roomType: "Living room",
+  chimneyType: "No chimney or open fire",
+  length: 5,
+  width: 5,
+  height: 2.4,
+
+  elements: [
+    elementInput.create()
+  ],
+  floors: [
+    floorInput.create()
+  ],
+  portals: [
+    portalInput.create()
+  ],
 
   // Private properties:
   // For Convectors
@@ -18,10 +35,32 @@ const roomInput = Ember.Object.extend({
 
   // For Underfloor Heating
   _floorSurfaceType: "Normally occupied space",
-    _maximumFloorSurfaceTemp: 20,
+  _maximumFloorSurfaceTemp: 20,
   _floorConstruction: "Floating screed floor",
   _floorTOG: 0.25,
   _activeFloorArea: 25,
+
+  // Computed properties
+  designRoomVentilationRate: Ember.computed('chimneyType', 'siteBelongingTo.buildingRegulation', 'roomType', 'width', 'height', 'length', function()
+  {
+    let chimneyType = this.get('chimneyType');
+    let regulations = this.get('siteBelongingTo.buildingRegulation');
+    let roomType = this.get('roomType');
+
+    let width = this.get('width');
+    let height = this.get('height');
+    let length = this.get('length');
+
+    if (chimneyType !== "No chimney or open fire"){
+      let alternativeVentilationRate = chimneyType === "Without throat restrictor fitted to flue" ?
+        ((width*height*length) <= 40 ? 5 : 4) :
+        ((width*height*length) <= 40 ? 3 : 2);
+
+      return Math.max(alternativeVentilationRate, this.get(`roomTypeVentilationRateByRegulation.${regulations}.${roomType}`));
+    } else {
+      return this.get(`roomTypeVentilationRateByRegulation.${regulations}.${roomType}`);
+    }
+  }),
 
   // Public accessors
   // For Convectors
@@ -67,10 +106,9 @@ const roomInput = Ember.Object.extend({
   {
     get(key)
     {
-      let debug1 = this.get('emitterType') === "Underfloor Heating";
       if (this.get('emitterType') === "Underfloor Heating"){
-        let debug2 = this.get('_floorSurfaceType');
-        return debug2;
+        let floorSurfaceType = this.get('_floorSurfaceType');
+        return floorSurfaceType;
       } else {
         return NaN;
       }
@@ -82,24 +120,24 @@ const roomInput = Ember.Object.extend({
       return value;
     }
   }),
-    // For floor surface type set to custom temperature
-    maximumFloorSurfaceTemp: Ember.computed('floorSurfaceType', '_maximumFloorSurfaceTemp',
+  // For floor surface type set to custom temperature
+  maximumFloorSurfaceTemp: Ember.computed('floorSurfaceType', '_maximumFloorSurfaceTemp',
+  {
+    get(key)
     {
-      get(key)
-      {
-        if (this.get('floorSurfaceType') === "Specify Maximum Floor Surface Temperature (°C)"){
-          return this.get('_maximumFloorSurfaceTemp');
-        } else {
-          return NaN;
-        }
-      },
-
-      set(key, value)
-      {
-        this.set('_maximumFloorSurfaceTemp', value);
-        return value;
+      if (this.get('floorSurfaceType') === "Specify Maximum Floor Surface Temperature (°C)"){
+        return this.get('_maximumFloorSurfaceTemp');
+      } else {
+        return NaN;
       }
-    }),
+    },
+
+    set(key, value)
+    {
+      this.set('_maximumFloorSurfaceTemp', value);
+      return value;
+    }
+  }),
 
   floorConstruction: Ember.computed('emitterType', '_floorConstruction',
   {
@@ -155,6 +193,51 @@ const roomInput = Ember.Object.extend({
     }
   }),
 
+  // Constants
+  roomTypeDesignTemperature: {
+    "Living room": 21,
+    "Dining room": 21,
+    "Bedsitting room": 21,
+    "Bedroom": 18,
+    "Hall and landing": 18,
+    "Kitchen": 18,
+    "Bathroom": 22,
+    "Toilet": 18
+  },
+
+  roomTypeVentilationRateByRegulation: {
+    "Built before 2000": {
+      "Living room": 1.5,
+      "Dining room": 1.5,
+      "Bedsitting room": 1.5,
+      "Bedroom": 1,
+      "Hall and landing": 2,
+      "Kitchen": 2,
+      "Bathroom": 3,
+      "Toilet": 3
+    },
+    "Built in 2000 or later with double glazing and regulatory minimum insulation": {
+      "Living room": 1,
+      "Dining room": 1,
+      "Bedsitting room": 1,
+      "Bedroom": 1,
+      "Hall and landing": 1,
+      "Kitchen": 1.5,
+      "Bathroom": 1.5,
+      "Toilet": 1.5
+    },
+    "Built after 2006 and complies with all current Building Regulations": {
+      "Living room": 0.5,
+      "Dining room": 0.5,
+      "Bedsitting room": 0.5,
+      "Bedroom": 0.5,
+      "Hall and landing": 0.5,
+      "Kitchen": 1.5,
+      "Bathroom": 1.5,
+      "Toilet": 1.5
+    }
+  },
+
   // Dropdown options
   emitterTypeOptions: [
     "Convector",
@@ -175,6 +258,23 @@ const roomInput = Ember.Object.extend({
     "Floating dry floor inc. 18 mm gypsum fibreboard"
   ],
 
+  roomTypeOptions: [
+    "Living room",
+    "Dining room",
+    "Bedsitting room",
+    "Bedroom",
+    "Hall and landing",
+    "Kitchen",
+    "Bathroom",
+    "Toilet"
+  ],
+
+  chimneyTypeOptions: [
+    "No chimney or open fire",
+    "Without throat restrictor fitted to flue",
+    "With throat restrictor fitted to flue"
+  ],
+
   // Computed properties to check active options
   isConvector: Ember.computed('emitterType', function()
   {
@@ -190,19 +290,56 @@ const roomInput = Ember.Object.extend({
   {
     return this.get('emitterType') === "Underfloor Heating";
   }),
-    // Only ever accessible if isUnderfloor
-    isCustomMaximumSurfaceTemp: Ember.computed('_floorSurfaceType', function()
-    {
-      return this.get('_floorSurfaceType') === "Specify Maximum Floor Surface Temperature (°C)";
-    }),
 
+  // Only ever accessible if isUnderfloor
+  isCustomMaximumSurfaceTemp: Ember.computed('_floorSurfaceType', function()
+  {
+    return this.get('_floorSurfaceType') === "Specify Maximum Floor Surface Temperature (°C)";
+  }),
+
+  // Functions
+  addElement()
+  {
+    this.get('roomInput.elements').pushObject(elementInput.create());
+  },
+
+  destroyElement(index)
+  {
+    this.get('roomInput.elements').objectAt(index).destroy();
+    this.get('roomInput.elements').removeAt(index);
+  },
+
+  addFloor()
+  {
+    this.get('roomInput.floors').pushObject(floorInput.create());
+  },
+
+  destroyFloor(index)
+  {
+    this.get('roomInput.floors').objectAt(index).destroy();
+    this.get('roomInput.floors').removeAt(index);
+  },
+
+  addPortal()
+  {
+    this.get('roomInput.portals').pushObject(portalInput.create());
+  },
+
+  destroyPortal(index)
+  {
+    this.get('roomInput.portals').objectAt(index).destroy();
+    this.get('roomInput.portals').removeAt(index);
+  },
   // DEBUG
-  debugObserver: Ember.observer('roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', 'testSite', function()
+  debugObserver: Ember.observer('designRoomVentilationRate', 'siteBelongingTo.buildingRegulation', 'roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', 'testSite', 'roomType', 'chimneyType', function()
   {
     if (this.get('debug')){
+      console.log('designRoomVentilationRate: ' + this.get('designRoomVentilationRate'));
       console.log('testSite: ' + this.get('testSite'));
       console.log("roomName: " + this.get('roomName'));
       console.log("emitterType: " + this.get('emitterType'));
+      console.log("roomType: " + this.get('roomType'));
+      console.log("chimneyType: " + this.get('chimneyType'));
       console.log("temperatureFactor: " + this.get('temperatureFactor'));
       console.log("nCoefficient: " + this.get('nCoefficient'));
       console.log("floorSurfaceType: " + this.get('floorSurfaceType'));

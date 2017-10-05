@@ -25,7 +25,7 @@ const emitterSpecifications = Ember.Object.extend({
 
     set(key, value)
     {
-      if (value != null && value != "Specify Temperature" && (!(!isNaN(parseFloat(value)) && isFinite(value)))){
+      if (value !== null && value !== "Specify Temperature" && (!(!isNaN(parseFloat(value)) && isFinite(value)))){
         let split1 = value.split("≤");
         let split2 = split1[1].split("°C");
         let finalValue = parseFloat(split2[0]);

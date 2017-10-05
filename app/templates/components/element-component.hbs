@@ -1,2 +1,31 @@
-<span>Element Description:<br></span>
-{{input type="text" value=element.description}}
+<button {{action destroyElement index}}> X </button>
+
+<span>Construction Element {{index}}:<br></span>
+
+<span><br>Element Description:<br></span>
+{{input type="text" value=constructionElement.description}}
+
+<span><br>Space type on other side of construction:<br></span>
+<select onchange = {{action (mut constructionElement.spaceTypeOnOtherSide) value="target.value"}}>
+  {{#each constructionElement.spaceTypeOnOtherSideOptions as |spaceTypeOption|}}
+    <option>{{spaceTypeOption}}</option>
+  {{/each}}
+</select>
+
+<span><br>Height or Length:<br></span>
+{{input type="number" value=constructionElement.heightOrLength}}
+
+<span><br>Width:<br></span>
+{{input type="number" value=constructionElement.width}}
+
+<span><br>Construction:<br></span>
+<select onchange = {{action (mut constructionElement.construction) value="target.value"}}>
+  {{#each constructionElement.constructionOptions as |constructionOption|}}
+    <option>{{constructionOption}}</option>
+  {{/each}}
+</select>
+
+{{#if constructionElement.isCustomConstruction}}
+  <span><br>Custom U-value:<br></span>
+  {{input type="number" value=constructionElement.uValue}}
+{{/if}}
