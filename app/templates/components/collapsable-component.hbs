@@ -1,0 +1,7 @@
+<h2 class="expandContractToggle" {{action "toggleVisibility"}}>{{componentToRender.componentName}}<br></h2>
+
+{{log componentToRender.label}}
+
+{{#if isExpanded}}
+  {{component componentToRender}}
+{{/if}}

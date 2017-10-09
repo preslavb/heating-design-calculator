@@ -298,37 +298,37 @@ const roomInput = Ember.Object.extend({
   }),
 
   // Functions
-  addElement()
+  addElement(index)
   {
-    this.get('roomInput.elements').pushObject(elementInput.create());
+    this.get(`siteInput.rooms.${index}.elements`).pushObject(elementInput.create());
   },
 
   destroyElement(index)
   {
-    this.get('roomInput.elements').objectAt(index).destroy();
-    this.get('roomInput.elements').removeAt(index);
+    this.get(`siteInput.rooms.${index}.elements`).objectAt(index).destroy();
+    this.get(`siteInput.rooms.${index}.elements`).removeAt(index);
   },
 
-  addFloor()
+  addFloor(index)
   {
-    this.get('roomInput.floors').pushObject(floorInput.create());
+    this.get(`siteInput.rooms.${index}.floors`).pushObject(floorInput.create());
   },
 
   destroyFloor(index)
   {
-    this.get('roomInput.floors').objectAt(index).destroy();
-    this.get('roomInput.floors').removeAt(index);
+    this.get(`siteInput.rooms.${index}.floors`).objectAt(index).destroy();
+    this.get(`siteInput.rooms.${index}.floors`).removeAt(index);
   },
 
-  addPortal()
+  addPortal(index)
   {
-    this.get('roomInput.portals').pushObject(portalInput.create());
+    this.get(`siteInput.rooms.${index}.portals`).pushObject(portalInput.create());
   },
 
   destroyPortal(index)
   {
-    this.get('roomInput.portals').objectAt(index).destroy();
-    this.get('roomInput.portals').removeAt(index);
+    this.get(`siteInput.rooms.${index}.portals`).objectAt(index).destroy();
+    this.get(`siteInput.rooms.${index}.portals`).removeAt(index);
   },
   // DEBUG
   debugObserver: Ember.observer('designRoomVentilationRate', 'siteBelongingTo.buildingRegulation', 'roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', 'testSite', 'roomType', 'chimneyType', function()

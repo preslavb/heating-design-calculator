@@ -1,6 +1,5 @@
-<h2>Emitter Specifications</h2>
-
 <span>Enter Design flow (Tf) temperature:<br></span>
+
 <select onchange = {{action (mut emitterSpecifications.designFlowTemp) value="target.value"}}>
   {{#each emitterSpecifications.designFlowTempOptions as |designFlowTempOption|}}
     <option>{{designFlowTempOption}}</option>

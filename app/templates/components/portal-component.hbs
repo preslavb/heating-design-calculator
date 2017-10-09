@@ -1,6 +1,6 @@
 <button {{action destroyPortal index}}> X </button>
 
-<span>Portal {{index}}:<br></span>
+<!-- <span class="expandContractToggle" onclick={{action 'toggleVisibility'}}>Portal {{index}}:<br></span> -->
 
 <span><br>In which wall/ceiling/door:<br></span>
 <select onchange = {{action (mut portal.partOf) value="target.value"}}>

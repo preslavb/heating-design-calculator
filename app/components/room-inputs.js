@@ -1,13 +1,10 @@
 import Ember from 'ember';
+import ExpandedComponent from 'heating-design-calculator/components/collapsable-component';
 
-export default Ember.Component.extend({
-  // Expand and collapse
-  isExpanded: true,
-
-  actions: {
-    toggleVisibility()
-    {
-      this.set('isExpanded', !(this.get('isExpanded')));
-    }
-  }
+export default ExpandedComponent.extend({
+  index: 0,
+  componentName: Ember.computed('index', function()
+  {
+    return "Room " + this.get('index');
+  })
 });

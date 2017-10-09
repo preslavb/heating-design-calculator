@@ -1,4 +1,4 @@
-<h2 class="expandContractToggle">Room Inputs</h2>
+<!-- <h2 class="expandContractToggle" onclick={{action 'toggleVisibility'}}>Room Inputs</h2> -->
 
 <span>Room Name:<br></span>
 {{input type="text" value=roomInput.roomName}}
@@ -94,7 +94,7 @@
   {{/each}}
 {{/if}}
 <!-- Add floor to the array of floors in the roomInputs class -->
-<button {{action addFloor}}> Add Floor</button>
+<button {{action addFloor target=roomInput}}> Add Floor</button>
 <br>
 
 <!-- Show portals if there are any to show -->
@@ -104,7 +104,7 @@
   {{/each}}
 {{/if}}
 <!-- Add floor to the array of floors in the roomInputs class -->
-<button {{action addPortal}}> Add Portal</button>
+<button {{action addPortal target=roomInput}}> Add Portal</button>
 <br>
 
 <!-- Create the room model from the input the user gave -->

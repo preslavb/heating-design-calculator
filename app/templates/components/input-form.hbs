@@ -1,9 +1,12 @@
 <!-- Create the components for the different input tabs and set their classes -->
-{{site-inputs siteInput=siteInput}}
-{{#each siteInput.rooms as |roomInput|}}
-  {{room-inputs roomInput=roomInput createRoom=(action createRoom)
-                addElement=(action roomInput.addElement) destroyElement=(action roomInput.destroyElement)
-                addFloor=(action roomInput.addFloor) destroyFloor=(action roomInput.destroyFloor)
-                addPortal=(action roomInput.addPortal) destroyPortal=(action roomInput.destroyPortal)}}
+{{collapsable-component componentName="Site Input" componentToRender=(component "site-inputs" siteInput=siteInput)}}
+{{#each siteInput.rooms as |roomInput index|}}
+  {{collapsable-component
+    componentToRender=(component "room-inputs" roomInput=roomInput createRoom=(action createRoom) index=index
+                addElement=(action roomInput.addElement index) destroyElement=(action roomInput.destroyElement index)
+                addFloor=(action roomInput.addFloor index) destroyFloor=(action roomInput.destroyFloor index)
+                addPortal=(action roomInput.addPortal index) destroyPortal=(action roomInput.destroyPortal index)
+    )
+  }}
 {{/each}}
-{{emitter-specifications emitterSpecifications=emitterSpecifications}}
+{{collapsable-component componentToRender=(component "emitter-specifications" emitterSpecifications=emitterSpecifications)}}
