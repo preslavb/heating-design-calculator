@@ -6,13 +6,32 @@ const elementInput = Ember.Object.extend({
 
   // Public properties
   description: '',
-  spaceTypeOnOtherSide: "Outside",
+  spaceTypeOnOtherSide: "Living room",
   heightOrLength: 2.4,
   width: 5,
   construction: "Enter a U-value",
 
   // Private properties
   _uValue: 1,
+
+  // Computed properties
+  area: Ember.computed('heightOrLength', 'width', function()
+  {
+    return this.get('heightOrLength') * this.get('width');
+  }),
+
+  designTemperatureDifference: Ember.computed('spaceTypeOnOtherSide', 'roomBelongingTo.roomTypeDesignTemperature', function()
+  {
+    let designTemperature = this.get(`roomBelongingTo.roomTypeDesignTemperatures.${this.get('spaceTypeOnOtherSide')}`);
+    let roomDesignTemperature = this.get('roomBelongingTo.roomTypeDesignTemperature');
+
+    return roomDesignTemperature - designTemperature;
+  }),
+
+  heatLoss: Ember.computed('uValue', 'designTemperatureDifference', 'area', function()
+  {
+    return this.get('uValue') * this.get('designTemperatureDifference') * this.get('area');
+  }),
 
   // Property accessors
   uValue: Ember.computed('construction', '_uValue', {
@@ -147,7 +166,6 @@ const elementInput = Ember.Object.extend({
 
   // Dropdown options
   spaceTypeOnOtherSideOptions: [
-    "Outside",
     "Living room",
     "Dining room",
     "Bedsitting room",

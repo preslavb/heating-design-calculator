@@ -10,3 +10,9 @@
   <span><br>Enter custom Design Flow Temperature:<br></span>
   {{input type="number" value=emitterSpecifications.customDesignFlowTemp}}
 {{/if}}
+
+<span><br>Room Design Temperature ({{room.roomType}}):<br></span>
+{{input value=room.designHeatLoss readonly='readonly'}}
+
+<span><br>Room Design Temperature ({{room.roomType}}):<br></span>
+{{input value=room.roomTypeDesignTemperature readonly='readonly'}}

@@ -1,7 +1,7 @@
 <!-- Create the components for the different input tabs and set their classes -->
 {{collapsable-component componentName="Site Input" componentToRender=(component "site-inputs" siteInput=siteInput)}}
 {{#each siteInput.rooms as |roomInput index|}}
-  {{collapsable-component
+  {{collapsable-component componentName = (add "Room " index)
     componentToRender=(component "room-inputs" roomInput=roomInput createRoom=(action createRoom) index=index
                 addElement=(action roomInput.addElement index) destroyElement=(action roomInput.destroyElement index)
                 addFloor=(action roomInput.addFloor index) destroyFloor=(action roomInput.destroyFloor index)
@@ -9,4 +9,10 @@
     )
   }}
 {{/each}}
-{{collapsable-component componentToRender=(component "emitter-specifications" emitterSpecifications=emitterSpecifications)}}
+
+{{#each siteInput.rooms as |roomInput index|}}
+  {{collapsable-component componentName=(add roomInput.emitterType (add " in " roomInput.roomName)) componentToRender=(component "emitter-specifications" emitterSpecifications=emitterSpecifications room=roomInput emitterType=roomInput.emitterType)}}
+{{/each}}
+
+<!-- Create the results component -->
+{{collapsable-component componentName='Results' componentToRender=(component 'room-results' siteInput=siteInput)}}

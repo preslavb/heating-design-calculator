@@ -25,3 +25,20 @@ select, input
 {
   margin: 10px 0px;
 }
+
+td
+{
+  border: 1px solid black;
+  height: 50px;
+}
+
+td:nth-child(odd)
+{
+  background-color: orange;
+}
+
+table
+{
+  width: 100%;
+  table-layout: fixed
+}

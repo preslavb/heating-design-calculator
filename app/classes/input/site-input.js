@@ -7,7 +7,7 @@ const siteInput = Ember.Object.extend({
   // Initialize
   init()
   {
-    let newRoom = roomInput.create();
+    let newRoom = roomInput.create({ index: 0 });
     newRoom.set('siteBelongingTo', this);
     this.get('rooms').pushObject(newRoom);
   },

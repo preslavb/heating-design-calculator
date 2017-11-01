@@ -1,6 +1,4 @@
-<h2 class="expandContractToggle" {{action "toggleVisibility"}}>{{componentToRender.componentName}}<br></h2>
-
-{{log componentToRender.label}}
+<h2 class="expandContractToggle" {{action "toggleVisibility"}}>{{componentName}}<br></h2>
 
 {{#if isExpanded}}
   {{component componentToRender}}

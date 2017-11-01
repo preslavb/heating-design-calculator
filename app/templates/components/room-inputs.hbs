@@ -1,5 +1,3 @@
-<!-- <h2 class="expandContractToggle" onclick={{action 'toggleVisibility'}}>Room Inputs</h2> -->
-
 <span>Room Name:<br></span>
 {{input type="text" value=roomInput.roomName}}
 
@@ -80,7 +78,9 @@
 <!-- Show elements if there are any to show -->
 {{#if roomInput.elements}}
   {{#each roomInput.elements as |constructionElement index|}}
-    {{element-component constructionElement=constructionElement index=index destroyElement=(action destroyElement)}}
+    {{collapsable-component componentName=(add "Element " index)
+      componentToRender=(component "element-component" constructionElement=constructionElement index=index destroyElement=(action destroyElement))
+    }}
   {{/each}}
 {{/if}}
 <!-- Add elements to the array of elements in the roomInputs class -->
@@ -90,7 +90,9 @@
 <!-- Show floors if there are any to show -->
 {{#if roomInput.floors}}
   {{#each roomInput.floors as |floor index|}}
-    {{floor-component floor=floor index=index destroyFloor=(action destroyFloor)}}
+    {{collapsable-component componentName=(add "Floor " index)
+      componentToRender=(component "floor-component" floor=floor index=index destroyFloor=(action destroyFloor))
+    }}
   {{/each}}
 {{/if}}
 <!-- Add floor to the array of floors in the roomInputs class -->
@@ -100,7 +102,9 @@
 <!-- Show portals if there are any to show -->
 {{#if roomInput.portals}}
   {{#each roomInput.portals as |portal index|}}
-    {{portal-component portal=portal index=index destroyPortal=(action destroyPortal)}}
+    {{collapsable-component componentName=(add "Portal " index)
+      componentToRender=(component "portal-component" portal=portal index=index destroyPortal=(action destroyPortal))
+    }}
   {{/each}}
 {{/if}}
 <!-- Add floor to the array of floors in the roomInputs class -->

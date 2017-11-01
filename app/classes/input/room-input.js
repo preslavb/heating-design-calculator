@@ -7,6 +7,27 @@ const roomInput = Ember.Object.extend({
   // Debugging
   debug: true,
 
+  // Initialize
+  init()
+  {
+    let newElement = elementInput.create({ index: 0 });
+    newElement.set('roomBelongingTo', this);
+    this.get('elements').pushObject(newElement);
+
+    let newFloor = floorInput.create({ index: 0 });
+    newFloor.set('roomBelongingTo', this);
+    this.get('floors').pushObject(newFloor);
+
+    let newPortal = portalInput.create({ index: 0 });
+    newPortal.set('roomBelongingTo', this);
+    this.get('portals').pushObject(newPortal);
+  },
+
+  // Arrays
+  elements: [],
+  floors: [],
+  portals: [],
+
   // Public properties
   roomName: "",
   emitterType: "Convector",
@@ -15,16 +36,6 @@ const roomInput = Ember.Object.extend({
   length: 5,
   width: 5,
   height: 2.4,
-
-  elements: [
-    elementInput.create()
-  ],
-  floors: [
-    floorInput.create()
-  ],
-  portals: [
-    portalInput.create()
-  ],
 
   // Private properties:
   // For Convectors
@@ -59,6 +70,28 @@ const roomInput = Ember.Object.extend({
       return Math.max(alternativeVentilationRate, this.get(`roomTypeVentilationRateByRegulation.${regulations}.${roomType}`));
     } else {
       return this.get(`roomTypeVentilationRateByRegulation.${regulations}.${roomType}`);
+    }
+  }),
+
+  roomVolume: Ember.computed('length', 'width', 'height', function()
+  {
+    return this.get('length') * this.get('width') * this.get('height');
+  }),
+
+  designTemperatureDifference: Ember.computed('roomTypeDesignTemperature', 'siteBelongingTo.designExternalTemp', function()
+  {
+    return this.get('roomTypeDesignTemperature') - this.get('siteBelongingTo.designExternalTemp');
+  }),
+
+  roomTypeDesignTemperature: Ember.computed('roomType', function()
+  {
+    return this.get(`roomTypeDesignTemperatures.${this.get('roomType')}`);
+  }),
+
+  heatLoss: Ember.computed('roomVolume', 'designRoomVentilationRate', function()
+  {
+    if (this.get('roomVolume') > 0) {
+      return ( 0.33 * this.get('roomVolume') * this.get('designRoomVentilationRate') * this.get('designTemperatureDifference') );
     }
   }),
 
@@ -194,7 +227,7 @@ const roomInput = Ember.Object.extend({
   }),
 
   // Constants
-  roomTypeDesignTemperature: {
+  roomTypeDesignTemperatures: {
     "Living room": 21,
     "Dining room": 21,
     "Bedsitting room": 21,
@@ -202,7 +235,10 @@ const roomInput = Ember.Object.extend({
     "Hall and landing": 18,
     "Kitchen": 18,
     "Bathroom": 22,
-    "Toilet": 18
+    "Toilet": 18,
+    "Outside": -3.8,
+    "Unheated space": -3.8,
+    "Adjoining dwelling": 10
   },
 
   roomTypeVentilationRateByRegulation: {
@@ -300,7 +336,7 @@ const roomInput = Ember.Object.extend({
   // Functions
   addElement(index)
   {
-    this.get(`siteInput.rooms.${index}.elements`).pushObject(elementInput.create());
+    this.get(`siteInput.rooms.${index}.elements`).pushObject(elementInput.create({ roomBelongingTo: this.get(`siteInput.rooms.${index}`)}));
   },
 
   destroyElement(index)
@@ -311,7 +347,7 @@ const roomInput = Ember.Object.extend({
 
   addFloor(index)
   {
-    this.get(`siteInput.rooms.${index}.floors`).pushObject(floorInput.create());
+    this.get(`siteInput.rooms.${index}.floors`).pushObject(floorInput.create({ roomBelongingTo: this.get(`siteInput.rooms.${index}`)}));
   },
 
   destroyFloor(index)
@@ -322,7 +358,7 @@ const roomInput = Ember.Object.extend({
 
   addPortal(index)
   {
-    this.get(`siteInput.rooms.${index}.portals`).pushObject(portalInput.create());
+    this.get(`siteInput.rooms.${index}.portals`).pushObject(portalInput.create({ roomBelongingTo: this.get(`siteInput.rooms.${index}`)}));
   },
 
   destroyPortal(index)
@@ -331,7 +367,7 @@ const roomInput = Ember.Object.extend({
     this.get(`siteInput.rooms.${index}.portals`).removeAt(index);
   },
   // DEBUG
-  debugObserver: Ember.observer('designRoomVentilationRate', 'siteBelongingTo.buildingRegulation', 'roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', 'testSite', 'roomType', 'chimneyType', function()
+  debugObserver: Ember.observer('designRoomVentilationRate', 'siteBelongingTo.buildingRegulation', 'roomName', 'emitterType', 'temperatureFactor', 'nCoefficient', 'floorSurfaceType', 'maximumFloorSurfaceTemp', 'floorConstruction', 'activeFloorArea', 'testSite', 'roomType', 'chimneyType', 'roomTypeDesignTemperature', function()
   {
     if (this.get('debug')){
       console.log('designRoomVentilationRate: ' + this.get('designRoomVentilationRate'));
@@ -347,6 +383,7 @@ const roomInput = Ember.Object.extend({
       console.log("floorConstruction: " + this.get('floorConstruction'));
       console.log("floorTOG: " + this.get('floorTOG'));
       console.log("activeFloorArea: " + this.get('activeFloorArea'));
+      console.log('roomTypeDesignTemperature: ' + this.get('roomTypeDesignTemperature'));
     }
   })
 });

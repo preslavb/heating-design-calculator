@@ -1,0 +1,140 @@
+{{#each siteInput.rooms as |room index|}}
+<span><b>Room {{index}}: {{room.roomName}}</b><br></span>
+  <table>
+    <tr>
+      <td>Room name: </td>
+      <td>{{room.roomName}}</td>
+
+      <td>Emitter type: </td>
+      <td>{{room.emitterType}}</td>
+
+      {{#if room.isConvector}}
+        <td>Convector temperature factor: </td>
+        <td>{{room.temperatureFactor}}</td>
+      {{/if}}
+
+      {{#if room.isRadiator}}
+        <td>n-coefficient: </td>
+        <td>{{room.nCoefficient}}</td>
+      {{/if}}
+    </tr>
+    <tr>
+      {{#if room.isUnderfloor}}
+        <td>Floor type : </td>
+        <td>{{room.floorSurfaceType}}</td>
+
+        <td>Floor construction: </td>
+        <td>{{room.floorConstruction}}</td>
+      {{/if}}
+    </tr>
+
+    <tr>
+      {{#if room.isUnderfloor}}
+        <td>TOG Value: </td>
+        <td>{{room.floorTOG}}</td>
+
+        <td>Active or Exposed area of the heated floor</td>
+        <td>{{room.activeFloorArea}}</td>
+      {{/if}}
+    </tr>
+
+    <tr>
+      <td>Room type: </td>
+      <td>{{room.roomType}}</td>
+
+      <td>Open fire/chimney details: </td>
+      <td>{{room.chimneyType}}</td>
+
+      <td>Design room ventilation rate: </td>
+      <td>{{room.designRoomVentilationRate}}</td>
+
+      <td>Design room temperature: </td>
+      <td>{{room.roomTypeDesignTemperature}}</td>
+    </tr>
+
+    <tr><b>Room Dimensions</b></tr>
+    <tr>
+      <td>Room length (m): </td>
+      <td>{{room.length}}</td>
+
+      <td>Room width (m): </td>
+      <td>{{room.width}}</td>
+
+      <td>Room height (m): </td>
+      <td>{{room.height}}</td>
+
+      <td>Room volume (m<sup>3</sup>): </td>
+      <td>{{room.roomVolume}}</td>
+    </tr>
+
+    <tr>
+      <td>Design temperature difference: </td>
+      <td>{{room.designTemperatureDifference}}</td>
+
+      <td>Heat loss (W): </td>
+      <td>{{room.heatLoss}}</td>
+    </tr>
+
+    <tr><b>Walls, floors not ground floors and ceiling</b></tr>
+    <tr>
+      <td colspan="8">
+        <table>
+          <tr>
+            <td>Name of wall, floor, ceiling</td>
+            <td>Space on other side</td>
+            <td>Height or length (m)</td>
+            <td>Width (m)</td>
+            <td>Area (m²)</td>
+            <td>Construction</td>
+            <td>U-value (W/m²K)</td>
+            <td>Design temperature difference</td>
+            <td>Heat loss (W)</td>
+          </tr>
+          {{#each room.elements as |element input|}}
+            <tr>
+              <td>{{element.description}}</td>
+              <td>{{element.spaceTypeOnOtherSide}}</td>
+              <td>{{element.heightOrLength}}</td>
+              <td>{{element.width}}</td>
+              <td>{{element.area}}</td>
+              <td>{{element.construction}}</td>
+              <td>{{element.uValue}}</td>
+              <td>{{element.designTemperatureDifference}}</td>
+              <td>{{element.heatLoss}}</td>
+            </tr>
+          {{/each}}
+        </table>
+      </td>
+    </tr>
+
+    <tr><b>Ground Floors</b></tr>
+    <tr>
+      <td colspan="8">
+        <table>
+          <tr>
+            <td>Short length (m)</td>
+            <td>Long length (m)</td>
+            <td>Edges exposed</td>
+            <td>Area (m²)</td>
+            <td>Insulation type and thickness</td>
+            <td>U-value (W/m²K)</td>
+            <td>Design temperature difference</td>
+            <td>Heat loss (W)</td>
+          </tr>
+          {{#each room.floors as |floor input|}}
+            <tr>
+              <td>{{floor.shortLength}}</td>
+              <td>{{floor.longLength}}</td>
+              <td>{{floor.edgesExposed}}</td>
+              <td>{{floor.area}}</td>
+              <td>{{floor.insulationType}}</td>
+              <td>{{floor.uValue}}</td>
+              <td>{{floor.designTemperatureDifference}}</td>
+              <td>{{floor.heatLoss}}</td>
+            </tr>
+          {{/each}}
+        </table>
+      </td>
+    </tr>
+  </table>
+{{/each}}
