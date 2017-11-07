@@ -10,9 +10,7 @@
   }}
 {{/each}}
 
-{{#each siteInput.rooms as |roomInput index|}}
-  {{collapsable-component componentName=(add roomInput.emitterType (add " in " roomInput.roomName)) componentToRender=(component "emitter-specifications" emitterSpecifications=emitterSpecifications room=roomInput emitterType=roomInput.emitterType)}}
-{{/each}}
+{{collapsable-component componentName="Emitter Specifications" componentToRender=(component "emitter-specifications" rooms=siteInput.rooms site=siteInput)}}
 
 <!-- Create the results component -->
 {{collapsable-component componentName='Results' componentToRender=(component 'room-results' siteInput=siteInput)}}

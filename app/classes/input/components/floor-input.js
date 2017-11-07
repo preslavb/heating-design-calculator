@@ -4,7 +4,7 @@ const floorInput = Ember.Object.extend({
   // Public properties
   shortLength: 5,
   longLength: 5,
-  edgesExposed: 'Two adjacent edges',
+  edgesExposed: "One edge (short)",
   insulationType: 'Solid floor - Enter a U-value',
 
   // Private properties
@@ -29,7 +29,7 @@ const floorInput = Ember.Object.extend({
     return roomDesignTemperature - designTemperature;
   }),
 
-  insulationThickness: Ember.computed('designTemperatureDifference', function()
+  insulationThickness: Ember.computed('insulationType', function()
   {
     let thickness = 0;
 
@@ -46,7 +46,7 @@ const floorInput = Ember.Object.extend({
     return thickness;
   }),
 
-  uValueByInsulationType: Ember.computed('solidOrSuspended', 'shortLength', 'longLength', 'edgesExposed', function()
+  uValueByInsulationType: Ember.computed('insulationThickness', 'edgesExposed', function()
   {
     let solidOrSuspended = this.get('solidOrSuspended');
     let edgesExposed = this.get('edgesExposed');
@@ -114,6 +114,7 @@ const floorInput = Ember.Object.extend({
 
   heatLoss: Ember.computed('uValue', 'designTemperatureDifference', 'area', function()
   {
+    this.set('roomBelongingTo.partsUpdated', Date());
     return this.get('uValue') * this.get('designTemperatureDifference') * this.get('area');
   }),
 
@@ -267,9 +268,9 @@ const floorInput = Ember.Object.extend({
 
   // Dropdown options
   edgesExposedOptions: [
-    "Two adjacent edges",
     "One edge (short)",
     "One edge (long)",
+    "Two adjacent edges",
     "Two opposite edges",
     "Three edges (short outer edge)",
     "Three edges (long outer edge)"

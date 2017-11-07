@@ -6,20 +6,20 @@
       <td>{{room.roomName}}</td>
 
       <td>Emitter type: </td>
-      <td>{{room.emitterType}}</td>
+      <td>{{room.emitter.emitterType}}</td>
 
-      {{#if room.isConvector}}
+      {{#if room.emitter.isConvector}}
         <td>Convector temperature factor: </td>
-        <td>{{room.temperatureFactor}}</td>
+        <td>{{room.emitter.temperatureFactor}}</td>
       {{/if}}
 
-      {{#if room.isRadiator}}
+      {{#if room.emitter.isRadiator}}
         <td>n-coefficient: </td>
-        <td>{{room.nCoefficient}}</td>
+        <td>{{room.emitter.nCoefficient}}</td>
       {{/if}}
     </tr>
     <tr>
-      {{#if room.isUnderfloor}}
+      {{#if room.emitter.isUnderfloor}}
         <td>Floor type : </td>
         <td>{{room.floorSurfaceType}}</td>
 
@@ -29,9 +29,9 @@
     </tr>
 
     <tr>
-      {{#if room.isUnderfloor}}
+      {{#if room.emitter.isUnderfloor}}
         <td>TOG Value: </td>
-        <td>{{room.floorTOG}}</td>
+        <td>{{room.emitter.floorTOG}}</td>
 
         <td>Active or Exposed area of the heated floor</td>
         <td>{{room.activeFloorArea}}</td>
@@ -135,6 +135,42 @@
           {{/each}}
         </table>
       </td>
+    </tr>
+
+    <tr><b>Windows and Doors</b></tr>
+    <tr>
+      <td colspan="8">
+        <table>
+          <tr>
+            <td>Wall or roof with window or door</td>
+            <td>Window or door height (m)</td>
+            <td>Window or door width (m)</td>
+            <td>Area (m²)</td>
+            <td>Wall/roof U-value (W/m<sup>2</sup>K)</td>
+            <td>Frame and glazing type</td>
+            <td>U-value</td>
+            <td>Design temperature difference</td>
+            <td>Heat loss (W)</td>
+          </tr>
+          {{#each room.portals as |portal input|}}
+            <tr>
+              <td>{{portal.partOfString}}</td>
+              <td>{{portal.height}}</td>
+              <td>{{portal.width}}</td>
+              <td>{{portal.area}}</td>
+              <td>{{portal.partOf.uValue}}</td>
+              <td>{{portal.frameType}}</td>
+              <td>{{portal.uValue}}</td>
+              <td>{{portal.partOf.designTemperatureDifference}}</td>
+              <td>{{portal.heatLoss}}</td>
+            </tr>
+          {{/each}}
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td>Total Heat Loss</td>
+      <td>{{room.totalHeatLoss}}</td>
     </tr>
   </table>
 {{/each}}

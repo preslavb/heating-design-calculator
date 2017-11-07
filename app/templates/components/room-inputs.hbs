@@ -3,50 +3,35 @@
 
 <!-- Emitter options dropdown -->
 <span><br>Emitter Type:<br></span>
-<select onchange = {{action (mut roomInput.emitterType) value="target.value"}}>
+<select onchange = {{action (mut roomInput.emitter.emitterType) value="target.value"}}>
   {{#each roomInput.emitterTypeOptions as |emitterTypeOption|}}
     <option>{{emitterTypeOption}}</option>
   {{/each}}
 </select>
 
-<!-- Show options if Convector -->
-{{#if roomInput.isConvector}}
-  <span><br>Temperature Factor:<br></span>
-  {{input type="number" value=roomInput.temperatureFactor}}
-{{/if}}
-
-<!-- Show options if Radiator -->
-{{#if roomInput.isRadiator}}
-  <span><br>n-Coefficient:<br></span>
-  {{input type="number" value=roomInput.nCoefficient}}
-{{/if}}
-
 <!-- Show options if Underfloor Heating -->
-<span hidden={{unless roomInput.isUnderfloor "hidden"}}><br>Floor Surface Type:<br></span>
-<select hidden={{unless roomInput.isUnderfloor "hidden"}} onchange = {{action (mut roomInput.floorSurfaceType) value="target.value"}}>
-  {{#each roomInput.floorSurfaceTypeOptions as |floorSurfaceTypeOption|}}
-    <option>{{floorSurfaceTypeOption}}</option>
-  {{/each}}
-</select>
+{{#if roomInput.emitter.isUnderfloor}}
+  <span hidden={{unless roomInput.emitter.isUnderfloor "hidden"}}><br>Floor Surface Type:<br></span>
+  <select hidden={{unless roomInput.emitter.isUnderfloor "hidden"}} onchange = {{action (mut roomInput.floorSurfaceType) value="target.value"}}>
+    {{#each roomInput.floorSurfaceTypeOptions as |floorSurfaceTypeOption|}}
+      <option>{{floorSurfaceTypeOption}}</option>
+    {{/each}}
+  </select>
+{{/if}}
 
 {{#if roomInput.isCustomMaximumSurfaceTemp}}
   <span><br>Maximum Floor Surface Temperature in °C:<br></span>
   {{input type="number" value=roomInput.maximumFloorSurfaceTemp}}
 {{/if}}
 
-<span hidden={{unless roomInput.isUnderfloor "hidden"}}><br>Floor Construction:<br></span>
-<select hidden={{unless roomInput.isUnderfloor "hidden"}} onchange = {{action (mut roomInput.floorConstruction) value="target.value"}}>
+<span hidden={{unless roomInput.emitter.isUnderfloor "hidden"}}><br>Floor Construction:<br></span>
+<select hidden={{unless roomInput.emitter.isUnderfloor "hidden"}} onchange = {{action (mut roomInput.floorConstruction) value="target.value"}}>
   {{#each roomInput.floorConstructionOptions as |floorConstructionOption|}}
     <option>{{floorConstructionOption}}</option>
   {{/each}}
 </select>
 
-{{#if roomInput.isUnderfloor}}
-  <span><br>Floor TOG value:<br></span>
-  {{input type="number" value=roomInput.floorTOG}}
-{{/if}}
-
-{{#if roomInput.isUnderfloor}}
+{{#if roomInput.emitter.isUnderfloor}}
   <span><br>Active floor area in m<sup>2</sup>:<br></span>
   {{input type="number" value=roomInput.activeFloorArea}}
 {{/if}}

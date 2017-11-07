@@ -3,9 +3,10 @@
 <!-- <span class="expandContractToggle" onclick={{action 'toggleVisibility'}}>Portal {{index}}:<br></span> -->
 
 <span><br>In which wall/ceiling/door:<br></span>
-<select onchange = {{action (mut portal.partOf) value="target.value"}}>
-  {{#each portal.partOfOptions as |option|}}
-    <option>{{option}}</option>
+<select onchange = {{action (mut portal.partOfString) value="target.value"}}>
+  {{#each portal.partOfOptions as |option index|}}
+  {{log option}}
+    <option>{{add index (add " " option.description)}}</option>
   {{/each}}
 </select>
 

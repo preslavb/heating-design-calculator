@@ -5,7 +5,7 @@ const elementInput = Ember.Object.extend({
   debug: true,
 
   // Public properties
-  description: '',
+  description: 'New Element',
   spaceTypeOnOtherSide: "Living room",
   heightOrLength: 2.4,
   width: 5,
@@ -30,6 +30,7 @@ const elementInput = Ember.Object.extend({
 
   heatLoss: Ember.computed('uValue', 'designTemperatureDifference', 'area', function()
   {
+    this.set('roomBelongingTo.partsUpdated', Date());
     return this.get('uValue') * this.get('designTemperatureDifference') * this.get('area');
   }),
 

@@ -37,6 +37,11 @@ td:nth-child(odd)
   background-color: orange;
 }
 
+td input
+{
+  width: 80%;
+}
+
 table
 {
   width: 100%;

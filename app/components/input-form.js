@@ -4,6 +4,5 @@ import emitterSpecifications from 'heating-design-calculator/classes/input/emitt
 
 export default Ember.Component.extend({
   // Create the input classes which store the different inputs for the calculation
-  siteInput: siteInput.create(),
-  emitterSpecifications: emitterSpecifications.create()
+  siteInput: siteInput.create()
 });

@@ -2,13 +2,32 @@ import Ember from 'ember';
 
 const portalInput = Ember.Object.extend({
   // Public properties
-  partOf: "External Wall",
+  partOfString: "0 New Element",
   height: 0.9,
   width: 1.6,
   frameType: "Enter a U-value",
 
   // Private properties
   _uValue: 0.15,
+
+  // Computed properties
+  area: Ember.computed('height', 'width', function()
+  {
+    return this.get('height') * this.get('width');
+  }),
+
+  partOf: Ember.computed('partOfString', function()
+  {
+    let index = this.get('partOfString').split(" ")[0];
+
+    return this.get(`roomBelongingTo.elements.${index}`);
+  }),
+
+  heatLoss: Ember.computed('uValue', 'partOf.uValue', 'partOf.designTemperatureDifference', function()
+  {
+    this.set('partOf.roomBelongingTo.partsUpdated', Date());
+    return this.get('uValue') * this.get('partOf.designTemperatureDifference') * (this.get('uValue') - this.get('partOf.uValue'));
+  }),
 
   // Property accessors
   uValue: Ember.computed('frameType', {
@@ -51,11 +70,17 @@ const portalInput = Ember.Object.extend({
   },
 
   // Dropdown options
-  partOfOptions: [
-    "External Wall",
-    "Internal Wall",
-    "Ceiling"
-  ],
+  partOfOptions: Ember.computed('roomBelongingTo.elements.length', function()
+  {
+    let newArray = [];
+    let elements = this.get('roomBelongingTo.elements');
+
+    elements.forEach( element => {
+       newArray.pushObject(element);
+    })
+
+    return newArray;
+  }),
 
   frameTypeOptions: [
     "Enter a U-value",
@@ -92,6 +117,6 @@ const portalInput = Ember.Object.extend({
     console.log('width: ' + this.get('width'));
     console.log('frameType: ' + this.get('frameType'));
     console.log('uValue: ' + this.get('uValue'));
-  })
+  }),
 });
 export default portalInput;
