@@ -31,8 +31,7 @@
       {{#if room.emitter.isUnderfloor}}
         <td>Floor Tog Value</td>
         <td>Required System Performance Factor KH in W/m2K</td>
-        <td>Required minimum pipe spacing (mm)</td>
-        <td>Minimum pipe spacing from manufacturer's data, if any (mm)</td>
+        <td>Minimum pipe spacing (mm)</td>
         <td>Floor surface temperature (Room specific MWT) limited to lower temperature than MWT?</td>
         <td>Limited MWT (°C) / Floor surface temperature for room (only)</td>
       {{/if}}
@@ -59,10 +58,9 @@
       {{#if room.emitter.isUnderfloor}}
         <td>{{input value=room.emitter.floorTOG}}</td>
         <td>{{room.emitter.requiredSystemPerformanceFactor}}</td>
-        <td>Required minimum pipe spacing (mm)</td>
-        <td>Minimum pipe spacing from manufacturer's data, if any (mm)</td>
-        <td>Floor surface temperature (Room specific MWT) limited to lower temperature than MWT?</td>
-        <td>Limited MWT (°C) / Floor surface temperature for room (only)</td>
+        <td>{{input value=room.emitter.minimumPipeSpacing}}</td>
+        <td>{{room.emitter.isMTWCapped}}</td>
+        <td>{{room.emitter.designTemperatureRestricted}}</td>
       {{/if}}
     </tr>
   </table>

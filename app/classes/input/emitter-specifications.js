@@ -20,6 +20,7 @@ const emitterSpecifications = Ember.Object.extend({
 
   // For Underfloor Heating
   _floorTOG: 0.25,
+  _minimumPipeSpacingManufacturer: 0,
 
   // Public accessors
   // For Convectors
@@ -133,6 +134,23 @@ const emitterSpecifications = Ember.Object.extend({
     }
   }),
 
+  minimumPipeSpacing: Ember.computed('_minimumPipeSpacingManufacturer', 'requiredMinimumPipeSpacing', {
+    get(key)
+    {
+      if (this.get('_minimumPipeSpacingManufacturer')) {
+        return this.get('_minimumPipeSpacingManufacturer');
+      } else {
+        return this.get('requiredMinimumPipeSpacing');
+      }
+    },
+
+    set(key, value)
+    {
+      this.set('_minimumPipeSpacingManufacturer', value);
+      return value;
+    }
+  }),
+
   // Computed properties
   radiatorTemperatureFactor: Ember.computed('emitterType', 'roomBelongingTo.siteBelongingTo.heatingMWT', 'roomBelongingTo.roomTypeDesignTemperature', 'nCoefficient', function()
   {
@@ -190,16 +208,27 @@ const emitterSpecifications = Ember.Object.extend({
     let designHeatLoss = this.get('roomBelongingTo.totalHeatLoss');
     let intermittencyFactor = this.get('intermittencyFactor');
     let activeFloorArea = this.get('roomBelongingTo.activeFloorArea');
-    let heatingMWT = this.get('heatingMWT');
+    let heatingMWT = this.get('roomBelongingTo.siteBelongingTo.heatingMWT');
     let designRoomTemperature = this.get('roomBelongingTo.roomTypeDesignTemperature');
     let designTemperatureRestricted = this.get('designTemperatureRestricted');
 
-    return (designHeatLoss / (intermittencyFactor * activeFloorArea)) / (designTemperatureRestricted - designRoomTemperature);
+    return (designHeatLoss / (intermittencyFactor * activeFloorArea)) / (Math.min(designTemperatureRestricted, heatingMWT) - designRoomTemperature);
   }),
 
-  requiredMinimumPipeSpacing: Ember.computed('', function()
+  requiredMinimumPipeSpacing: Ember.computed('roomBelongingTo.floorConstruction', 'floorTOG', 'requiredSystemPerformanceFactor', function()
   {
+    let floorConstructionTOGs = this.get(`floorConstructionRequiredMinimumPipeSpacing.${this.get('roomBelongingTo.floorConstruction')}`);
+    let TOGKeys = Object.keys(floorConstructionTOGs);
 
+    let performanceFactors = this.get(`floorConstructionRequiredMinimumPipeSpacing.${this.get('roomBelongingTo.floorConstruction')}`)[this.approximateFromArray(this.get('floorTOG'), TOGKeys)];
+
+    let index = performanceFactors === undefined ? NaN : performanceFactors.indexOf(this.approximateFromArray(this.get('requiredSystemPerformanceFactor'), performanceFactors));
+    return (index + 2) * 50;
+  }),
+
+  isMTWCapped: Ember.computed('roomBelongingTo.siteBelongingTo.heatingMWT', 'designTemperatureRestricted', function()
+  {
+    return this.get('designTemperatureRestricted') < this.get('roomBelongingTo.siteBelongingTo.heatingMWT') ? "YES" : "Note: Floor surface temperature capped at MWT";
   }),
 
   // Constants
@@ -258,6 +287,29 @@ const emitterSpecifications = Ember.Object.extend({
   {
     return this.get('emitterType') === "Underfloor Heating";
   }),
+
+  approximate(firstNumber, numberToApproximate, secondNumber)
+  {
+    if (Math.abs(numberToApproximate - firstNumber) > Math.abs(numberToApproximate - secondNumber)) {
+      return secondNumber;
+    } else {
+      return firstNumber;
+    }
+  },
+
+  approximateFromArray(numberToApproximate, array)
+  {
+    numberToApproximate = parseFloat(numberToApproximate);
+    let differencesArray = [];
+
+    array.forEach( number => {
+      differencesArray.push(Math.abs(numberToApproximate - number));
+    });
+
+    console.log(differencesArray, differencesArray.indexOf(Math.min(...differencesArray)));
+
+    return array[differencesArray.indexOf(Math.min(...differencesArray))];
+  },
 
   // DEBUG
   debugObserver: Ember.observer(function()
