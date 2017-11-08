@@ -9,7 +9,7 @@
 
 {{#each rooms as |room index|}}
   <span><br><b> Values for {{room.roomName}}</b></span>
-  <table>
+  <table class="vertical-table">
     <tr>
       <td>Room name</td>
       <td>Design heat loss (W)</td>
@@ -38,26 +38,25 @@
     </tr>
     <tr>
       <td>{{room.roomName}}</td>
-      <td>{{room.totalHeatLoss}}</td>
+      <td>{{round-2dp room.totalHeatLoss}}</td>
       <td>{{room.roomTypeDesignTemperature}}</td>
       <td>{{room.emitter.emitterType}}</td>
       {{#if room.emitter.isRadiator}}
         <td>{{input value=room.emitter.radiatorSurfaceFinishFactorF1}}</td>
         <td>{{input value=room.emitter.radiatorSurfaceFinishFactorF2}}</td>
         <td>{{input value=room.emitter.nCoefficient}}</td>
-        <td>{{room.emitter.radiatorTemperatureFactor}}</td>
-        <td>{{room.emitter.minimumEmitterSize}}</td>
+        <td>{{round-2dp room.emitter.radiatorTemperatureFactor}}</td>
+        <td>{{round-2dp room.emitter.minimumEmitterSize}}</td>
         <td>{{input value=room.emitter.installedEmitterSize}}</td>
       {{/if}}
       {{#if room.emitter.isConvector}}
-        {{log room.emitter.minimumEmitterSize}}
         <td>{{input value=room.emitter.convectorTemperatureFactor}}</td>
-        <td>{{room.emitter.minimumEmitterSize}}</td>
+        <td>{{round-2dp room.emitter.minimumEmitterSize}}</td>
         <td>{{input value=room.emitter.installedEmitterSize}}</td>
       {{/if}}
       {{#if room.emitter.isUnderfloor}}
         <td>{{input value=room.emitter.floorTOG}}</td>
-        <td>{{room.emitter.requiredSystemPerformanceFactor}}</td>
+        <td>{{round-2dp room.emitter.requiredSystemPerformanceFactor}}</td>
         <td>{{input value=room.emitter.minimumPipeSpacing}}</td>
         <td>{{room.emitter.isMTWCapped}}</td>
         <td>{{room.emitter.designTemperatureRestricted}}</td>

@@ -20,9 +20,9 @@ const elementInput = Ember.Object.extend({
     return this.get('heightOrLength') * this.get('width');
   }),
 
-  designTemperatureDifference: Ember.computed('spaceTypeOnOtherSide', 'roomBelongingTo.roomTypeDesignTemperature', function()
+  designTemperatureDifference: Ember.computed('spaceTypeOnOtherSide', 'roomBelongingTo.roomTypeDesignTemperature', 'roomBelongingTo.designTemperatureDifference', function()
   {
-    let designTemperature = this.get(`roomBelongingTo.roomTypeDesignTemperatures.${this.get('spaceTypeOnOtherSide')}`);
+    let designTemperature = (this.get('spaceTypeOnOtherSide') === "Outside" || this.get('spaceTypeOnOtherSide') === "Unheated space" ) ? this.get('roomBelongingTo.siteBelongingTo.designExternalTemp') : this.get(`roomBelongingTo.roomTypeDesignTemperatures.${this.get('spaceTypeOnOtherSide')}`);
     let roomDesignTemperature = this.get('roomBelongingTo.roomTypeDesignTemperature');
 
     return roomDesignTemperature - designTemperature;

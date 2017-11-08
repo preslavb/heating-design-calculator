@@ -203,8 +203,6 @@ const roomInput = Ember.Object.extend({
     "Kitchen": 18,
     "Bathroom": 22,
     "Toilet": 18,
-    "Outside": -3.8,
-    "Unheated space": -3.8,
     "Adjoining dwelling": 10
   },
 
