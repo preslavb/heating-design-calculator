@@ -10,6 +10,7 @@ const siteInput = Ember.Object.extend({
     let newRoom = roomInput.create({ index: 0 });
     newRoom.set('siteBelongingTo', this);
     this.get('rooms').pushObject(newRoom);
+    this.set('_currentRoom', this.get('rooms.0'));
   },
 
   // Public properties
@@ -25,8 +26,21 @@ const siteInput = Ember.Object.extend({
   _sourceCity: "Belfast",
   _altitude: 0,
   _designExternalTemperature: -10,
+  _currentRoom: "",
 
   // Property accessors
+  currentRoom: Ember.computed('rooms.length', {
+    get(key)
+    {
+
+    },
+
+    set(key, value)
+    {
+
+    }
+  }),
+
   designFlowTemp: Ember.computed('_designFlowTemp', 'customDesignFlowTemp',
   {
     get(key)

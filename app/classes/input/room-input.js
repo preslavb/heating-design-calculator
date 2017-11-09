@@ -100,9 +100,7 @@ const roomInput = Ember.Object.extend({
 
   heatLoss: Ember.computed('roomVolume', 'designRoomVentilationRate', function()
   {
-    if (this.get('roomVolume') > 0) {
       return ( 0.33 * this.get('roomVolume') * this.get('designRoomVentilationRate') * this.get('designTemperatureDifference') );
-    }
   }),
 
   totalHeatLoss: Ember.computed('partsUpdated', 'heatLoss', 'elements.length', 'floors.length', 'portals.length', function()

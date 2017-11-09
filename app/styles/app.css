@@ -1,17 +1,57 @@
-.expandContractToggle
+.defaultCollapsableClass
 {
   display: block;
   margin: 0;
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: 0px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   width: 100%;
   height: 30px;
   background-color: lightgreen;
 }
 
-.expandContractToggle:hover
+.expandContractToggleFirst
+{
+  border-left: 3px solid lightgrey;
+  border-right: 3px solid lightgrey;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: block;
+  margin: 0;
+  margin-bottom: 0px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  height: 30px;
+  background-color: lightgreen;
+}
+
+.expandedContent
+{
+  border-left: 3px solid lightgrey;
+  border-right: 3px solid lightgrey;
+  border-bottom: 3px solid lightgrey;
+  padding-right: 10px;
+  width: 100%;
+}
+
+.defaultCollapsableClass:hover , .expandContractToggleFirst:hover
 {
   background-color: green;
+}
+
+.calculator
+{
+  position: absolute;
+  left: 30px;
+  right: 30px;
+}
+
+.hiddenHandler
+{
+  border-bottom: 3px dotted grey;
 }
 
 select, input
@@ -19,24 +59,14 @@ select, input
   margin: 10px 0px;
 }
 
-td
+td, th
 {
   border: 1px solid black;
   height: 50px;
   width: 160px;
 }
 
-.form-table td:nth-child(odd)
-{
-  background-color: #FFBB55;
-}
-
-.vertical-table tr:nth-child(1)
-{
-  background-color: #FFBB55;
-}
-
-.horizontal-table td:nth-child(odd)
+th
 {
   background-color: #FFBB55;
 }

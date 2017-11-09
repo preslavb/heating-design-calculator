@@ -1,5 +1,5 @@
-<h2 class="expandContractToggle" {{action "toggleVisibility"}}>{{componentName}}<br></h2>
+<!-- A component which takes other components and renders them inside a collapsable handle -->
+<h2 class={{add classToUse (add " " (unless isExpanded "hiddenHandler"))}} {{action "toggleVisibility"}}>{{componentName}}<br></h2>
 
-{{#if isExpanded}}
-  {{component componentToRender}}
-{{/if}}
+<!-- Check if the view is supposed to be expanded. If not, set the property to hidden -->
+  {{component componentToRender class=secondaryClasses isVisible=isExpanded}}

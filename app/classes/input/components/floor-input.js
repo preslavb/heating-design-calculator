@@ -56,6 +56,7 @@ const floorInput = Ember.Object.extend({
 
     let formulaToUse;
 
+    // Formulate the final keys for the get() based on the edges exposed
     switch(edgesExposed) {
       case "Two adjacent edges":
         formulaToUse = parseFloat(shortLength) + parseFloat(longLength);
@@ -79,6 +80,7 @@ const floorInput = Ember.Object.extend({
 
     let dataSet = "";
 
+    // Resolve the span the key belongs to
     if (! (edgesExposed.indexOf("Three edges") > -1)) {
       let keys = (Object.keys(this.get(`uValuesByInsulationType.${solidOrSuspended}.${edgesExposed}`)));
       let firstKey = keys[0];

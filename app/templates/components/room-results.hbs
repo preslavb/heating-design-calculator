@@ -1,77 +1,78 @@
+<!-- Display the final information sheet for the room -->
 {{#each siteInput.rooms as |room index|}}
 <span><b>{{room.roomName}}</b><br></span>
   <table class="form-table">
     <tr>
-      <td>Room name: </td>
+      <th>Room name: </th>
       <td>{{room.roomName}}</td>
 
-      <td>Emitter type: </td>
+      <th>Emitter type: </th>
       <td>{{room.emitter.emitterType}}</td>
 
       {{#if room.emitter.isConvector}}
-        <td>Convector temperature factor: </td>
+        <th>Convector temperature factor: </th>
         <td>{{round-2dp room.emitter.temperatureFactor}}</td>
       {{/if}}
 
       {{#if room.emitter.isRadiator}}
-        <td>n-coefficient: </td>
+        <th>n-coefficient: </th>
         <td>{{room.emitter.nCoefficient}}</td>
       {{/if}}
     </tr>
     <tr>
       {{#if room.emitter.isUnderfloor}}
-        <td>Floor type : </td>
+        <th>Floor type : </th>
         <td>{{room.floorSurfaceType}}</td>
 
-        <td>Floor construction: </td>
+        <th>Floor construction: </th>
         <td>{{room.floorConstruction}}</td>
       {{/if}}
     </tr>
 
     <tr>
       {{#if room.emitter.isUnderfloor}}
-        <td>TOG Value: </td>
+        <th>TOG Value: </th>
         <td>{{room.emitter.floorTOG}}</td>
 
-        <td>Active or Exposed area of the heated floor</td>
+        <th>Active or Exposed area of the heated floor</th>
         <td>{{room.activeFloorArea}}</td>
       {{/if}}
     </tr>
 
     <tr>
-      <td>Room type: </td>
+      <th>Room type: </th>
       <td>{{room.roomType}}</td>
 
-      <td>Open fire/chimney details: </td>
+      <th>Open fire/chimney details: </th>
       <td>{{room.chimneyType}}</td>
 
-      <td>Design room ventilation rate: </td>
+      <th>Design room ventilation rate: </th>
       <td>{{room.designRoomVentilationRate}}</td>
 
-      <td>Design room temperature: </td>
+      <th>Design room temperature: </th>
       <td>{{room.roomTypeDesignTemperature}}</td>
     </tr>
 
     <tr><b>Room Dimensions</b></tr>
     <tr>
-      <td>Room length (m): </td>
+      <th>Room length (m): </th>
       <td>{{room.length}}</td>
 
-      <td>Room width (m): </td>
+      <th>Room width (m): </th>
       <td>{{room.width}}</td>
 
-      <td>Room height (m): </td>
+      <th>Room height (m): </th>
       <td>{{room.height}}</td>
 
-      <td>Room volume (m<sup>3</sup>): </td>
+      <th>Room volume (m<sup>3</sup>): </th>
       <td>{{room.roomVolume}}</td>
     </tr>
 
     <tr>
-      <td>Design temperature difference: </td>
+      <th>Design temperature difference: </th>
       <td>{{room.designTemperatureDifference}}</td>
 
-      <td>Heat loss (W): </td>
+      <th>Heat loss (W): </th>
       <td>{{round-2dp room.heatLoss}}</td>
     </tr>
   </table>
@@ -79,15 +80,15 @@
   <span><b>Walls, floors not on the ground and ceiling</b></span>
   <table class="vertical-table">
     <tr>
-      <td>Name of wall, floor, ceiling</td>
-      <td>Space on other side</td>
-      <td>Height or length (m)</td>
-      <td>Width (m)</td>
-      <td>Area (m²)</td>
-      <td>Construction</td>
-      <td>U-value (W/m²K)</td>
-      <td>Design temperature difference</td>
-      <td>Heat loss (W)</td>
+      <th>Name of wall, floor, ceiling</th>
+      <th>Space on other side</th>
+      <th>Height or length (m)</th>
+      <th>Width (m)</th>
+      <th>Area (m²)</th>
+      <th>Construction</th>
+      <th>U-value (W/m²K)</th>
+      <th>Design temperature difference</th>
+      <th>Heat loss (W)</th>
     </tr>
     {{#each room.elements as |element input|}}
       <tr>
@@ -107,14 +108,14 @@
   <span><b>Ground floors</b></span>
   <table class="vertical-table">
     <tr>
-      <td>Short length (m)</td>
-      <td>Long length (m)</td>
-      <td>Edges exposed</td>
-      <td>Area (m²)</td>
-      <td>Insulation type and thickness</td>
-      <td>U-value (W/m²K)</td>
-      <td>Design temperature difference</td>
-      <td>Heat loss (W)</td>
+      <th>Short length (m)</th>
+      <th>Long length (m)</th>
+      <th>Edges exposed</th>
+      <th>Area (m²)</th>
+      <th>Insulation type and thickness</th>
+      <th>U-value (W/m²K)</th>
+      <th>Design temperature difference</th>
+      <th>Heat loss (W)</th>
     </tr>
     {{#each room.floors as |floor input|}}
       <tr>
@@ -133,15 +134,15 @@
   <span><b>Windows and doors</b></span>
   <table class="vertical-table">
     <tr>
-      <td>Wall or roof with window or door</td>
-      <td>Window or door height (m)</td>
-      <td>Window or door width (m)</td>
-      <td>Area (m²)</td>
-      <td>Wall/roof U-value (W/m<sup>2</sup>K)</td>
-      <td>Frame and glazing type</td>
-      <td>U-value</td>
-      <td>Design temperature difference</td>
-      <td>Heat loss (W)</td>
+      <th>Wall or roof with window or door</th>
+      <th>Window or door height (m)</th>
+      <th>Window or door width (m)</th>
+      <th>Area (m²)</th>
+      <th>Wall/roof U-value (W/m<sup>2</sup>K)</th>
+      <th>Frame and glazing type</th>
+      <th>U-value</th>
+      <th>Design temperature difference</th>
+      <th>Heat loss (W)</th>
     </tr>
     {{#each room.portals as |portal input|}}
       <tr>
@@ -161,7 +162,7 @@
   <span><b>Results:</b></span>
   <table class="form-table">
     <tr>
-      <td>Total Heat Loss</td>
+      <th>Total Heat Loss</th>
       <td>{{round-2dp room.totalHeatLoss}}</td>
     </tr>
   </table>

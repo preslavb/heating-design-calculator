@@ -1,3 +1,4 @@
+<!-- Specify the Design flow temperature for the site currently being worked on -->
 <span>Enter Design flow (Tf) temperature:</span>
 <select onchange = {{action (mut site.designFlowTemp) value="target.value"}}>
   {{#each site.designFlowTempOptions as |designFlowTempOption|}}
@@ -5,42 +6,54 @@
   {{/each}}
 </select>
 
+<!-- Display the corresponding MWT of the site based on the Design Flow temperature -->
 <span>MWT: {{site.heatingMWT}}</span>
 
+<!-- Go through and display all the rooms and their heater specifications. Input values where needed -->
 {{#each rooms as |room index|}}
   <span><br><b> Values for {{room.roomName}}</b></span>
   <table class="vertical-table">
+    <!-- Table Headers -->
     <tr>
-      <td>Room name</td>
-      <td>Design heat loss (W)</td>
-      <td>Design room temperature (°C)</td>
-      <td>Emitter Type</td>
+      <th>Room name</th>
+      <th>Design heat loss (W)</th>
+      <th>Design room temperature (°C)</th>
+      <th>Emitter Type</th>
+
+      <!-- Radiator -->
       {{#if room.emitter.isRadiator}}
-        <td>Radiator Surface Finish Factor F1</td>
-        <td>Radiator Surface Finish Factor F2</td>
-        <td>n-coefficient (radiators only)</td>
-        <td>Radiator Temperature Factor (F<sub>TEMP</sub>)</td>
-        <td>Required minimum emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) if actual ΔROOM = 12.5°C</td>
-        <td>Actual installed emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) </td>
+        <th>Radiator Surface Finish Factor F1</th>
+        <th>Radiator Surface Finish Factor F2</th>
+        <th>n-coefficient (radiators only)</th>
+        <th>Radiator Temperature Factor (F<sub>TEMP</sub>)</th>
+        <th>Required minimum emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) if actual ΔROOM = 12.5°C</th>
+        <th>Actual installed emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) </th>
       {{/if}}
+
+      <!-- Convector -->
       {{#if room.emitter.isConvector}}
-        <td>Convector Temperature Factor (F<sub>TEMP</sub>)</td>
-        <td>Required minimum emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) if actual ΔROOM = 12.5°C</td>
-        <td>Actual installed emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) </td>
+        <th>Convector Temperature Factor (F<sub>TEMP</sub>)</th>
+        <th>Required minimum emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) if actual ΔROOM = 12.5°C</th>
+        <th>Actual installed emitter size (Watts) from EN442 standard test conditions (ΔROOM = 50°C) </th>
       {{/if}}
+
+      <!-- Underfloor -->
       {{#if room.emitter.isUnderfloor}}
-        <td>Floor Tog Value</td>
-        <td>Required System Performance Factor KH in W/m2K</td>
-        <td>Minimum pipe spacing (mm)</td>
-        <td>Floor surface temperature (Room specific MWT) limited to lower temperature than MWT?</td>
-        <td>Limited MWT (°C) / Floor surface temperature for room (only)</td>
+        <th>Floor Tog Value</th>
+        <th>Required System Performance Factor KH in W/m2K</th>
+        <th>Minimum pipe spacing (mm)</th>
+        <th>Floor surface temperature (Room specific MWT) limited to lower temperature than MWT?</th>
+        <th>Limited MWT (°C) / Floor surface temperature for room (only)</th>
       {{/if}}
     </tr>
     <tr>
+      <!-- Values -->
       <td>{{room.roomName}}</td>
       <td>{{round-2dp room.totalHeatLoss}}</td>
       <td>{{room.roomTypeDesignTemperature}}</td>
       <td>{{room.emitter.emitterType}}</td>
+
+      <!-- Radiator -->
       {{#if room.emitter.isRadiator}}
         <td>{{input value=room.emitter.radiatorSurfaceFinishFactorF1}}</td>
         <td>{{input value=room.emitter.radiatorSurfaceFinishFactorF2}}</td>
@@ -49,11 +62,15 @@
         <td>{{round-2dp room.emitter.minimumEmitterSize}}</td>
         <td>{{input value=room.emitter.installedEmitterSize}}</td>
       {{/if}}
+
+      <!-- Convector -->
       {{#if room.emitter.isConvector}}
         <td>{{input value=room.emitter.convectorTemperatureFactor}}</td>
         <td>{{round-2dp room.emitter.minimumEmitterSize}}</td>
         <td>{{input value=room.emitter.installedEmitterSize}}</td>
       {{/if}}
+
+      <!-- Underfloor -->
       {{#if room.emitter.isUnderfloor}}
         <td>{{input value=room.emitter.floorTOG}}</td>
         <td>{{round-2dp room.emitter.requiredSystemPerformanceFactor}}</td>

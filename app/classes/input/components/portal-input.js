@@ -72,14 +72,7 @@ const portalInput = Ember.Object.extend({
   // Dropdown options
   partOfOptions: Ember.computed('roomBelongingTo.elements.length', function()
   {
-    let newArray = [];
-    let elements = this.get('roomBelongingTo.elements');
-
-    elements.forEach( element => {
-       newArray.pushObject(element);
-    })
-
-    return newArray;
+    return this.get('roomBelongingTo.elements');
   }),
 
   frameTypeOptions: [

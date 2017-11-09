@@ -1,7 +1,7 @@
+<!-- Run the destroyPortal method provided by the room-inputs when clicked -->
 <button {{action destroyPortal index}}> X </button>
 
-<!-- <span class="expandContractToggle" onclick={{action 'toggleVisibility'}}>Portal {{index}}:<br></span> -->
-
+<!-- Inputs -->
 <span><br>In which wall/ceiling/door:<br></span>
 <select onchange = {{action (mut portal.partOfString) value="target.value"}}>
   {{#each portal.partOfOptions as |option index|}}
